@@ -32,7 +32,6 @@ internal object RijksMuseumRetrofitServiceProvider {
                         objectNumber = artObjectMap["objectNumber"].toString(),
                         title = artObjectMap["title"].toString(),
                         principalOrFirstMaker = artObjectMap["principalOrFirstMaker"].toString(),
-                        hasImage = artObjectMap["hasImage"] as Boolean,
                         headerImage = headerImageUrl
                     )
                 }
@@ -61,7 +60,6 @@ internal object RijksMuseumRetrofitServiceProvider {
                     objectNumber = rijksArtObject.artObject["objectNumber"].toString(),
                     title = rijksArtObject.artObject["title"].toString(),
                     principalOrFirstMaker = rijksArtObject.artObject["principalOrFirstMaker"].toString(),
-                    hasImage = rijksArtObject.artObject["hasImage"] as Boolean,
                     webImage = webImageUrl,
                     presentingDate = presentingDate,
                     plaqueDescription = rijksArtObject.artObjectPage["plaqueDescription"].toString(),

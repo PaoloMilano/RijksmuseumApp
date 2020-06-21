@@ -12,13 +12,17 @@ import javax.inject.Inject
 internal class RijksArtObjectListViewModel @Inject constructor(private val dataSourceFactory: RijksArtObjectRepository) :
     ViewModel() {
 
+    companion object {
+        private const val PAGE_SIZE = 100
+        private const val MAX_LIST_SIZE = 1000
+    }
+
     val rijksArtObjectListLiveData: LiveData<PagedList<RijksArtObject>> =
         dataSourceFactory.rijksObjectDataSourceFactory.toLiveData(
             Config(
-                pageSize = 100,
-                prefetchDistance = 200,
+                pageSize = PAGE_SIZE,
                 enablePlaceholders = false,
-                maxSize = 1000
+                maxSize = MAX_LIST_SIZE
             )
         )
 

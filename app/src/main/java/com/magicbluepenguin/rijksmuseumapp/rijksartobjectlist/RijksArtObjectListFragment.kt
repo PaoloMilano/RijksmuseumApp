@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.magicbluepenguin.rijksmuseumapp.R
 import com.magicbluepenguin.rijksmuseumapp.base.BaseFragment
 import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.RijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.databinding.FragmentArtObjectListBinding
@@ -38,6 +40,14 @@ internal class RijksArtObjectListFragment : BaseFragment() {
             }
             artObjectRecyclerView.adapter = pagedArtObjectAdapter
             artObjectRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+            artObjectRecyclerView.addItemDecoration(
+                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
+                    requireActivity().getDrawable(R.drawable.horizontal_recyclervirew_divider)
+                        ?.let {
+                            setDrawable(it)
+                        }
+                }
+            )
 
             artObjectListViewModel.rijksArtObjectListLiveData.observe(
                 viewLifecycleOwner,

@@ -31,7 +31,13 @@ internal class RijksArtObjectListAdapter(private val artObjectSelectionListener:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        RijksArtObjectItem(ItemViewArtObjectBinding.inflate(LayoutInflater.from(parent.context)))
+        RijksArtObjectItem(
+            ItemViewArtObjectBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RijksArtObject>() {

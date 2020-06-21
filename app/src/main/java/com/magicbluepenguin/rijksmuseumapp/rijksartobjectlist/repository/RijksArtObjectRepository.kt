@@ -20,7 +20,7 @@ internal class RijksArtObjectRepository @Inject constructor(private val rijksMus
             coroutineScope.launch {
                 callback.onResult(
                     rijksMuseumCollectionsServiceWrapper.listArtObjects(
-                        params.startPosition,
+                        params.startPosition / params.loadSize,
                         params.loadSize
                     )
                 )
@@ -34,7 +34,7 @@ internal class RijksArtObjectRepository @Inject constructor(private val rijksMus
             coroutineScope.launch {
                 callback.onResult(
                     rijksMuseumCollectionsServiceWrapper.listArtObjects(
-                        0,
+                        1,
                         params.requestedLoadSize
                     ),
                     0

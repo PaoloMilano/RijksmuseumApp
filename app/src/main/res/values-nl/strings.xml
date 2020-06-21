@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">RijksmuseumApp</string>
     <string name="app_language">nl</string>
+    <string name="author">Auteur: </string>
+    <string name="title">Titel: </string>
 </resources>

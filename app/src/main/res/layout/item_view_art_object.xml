@@ -1,11 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/itemViewArtObjectTitle"
+    <data>
+
+        <variable
+            name="artObject"
+            type="com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject" />
+    </data>
+
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="40dp" />
-</FrameLayout>
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/quarter_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:alpha="0.8"
+                android:background="@drawable/image_placeholder"
+                app:layout_constraintBottom_toBottomOf="@id/itemViewArtObjectHeaderImage"
+                app:layout_constraintEnd_toEndOf="@id/itemViewArtObjectHeaderImage"
+                app:layout_constraintStart_toStartOf="@id/itemViewArtObjectHeaderImage"
+                app:layout_constraintTop_toTopOf="@id/itemViewArtObjectHeaderImage" />
+
+            <ImageView
+                android:id="@+id/itemViewArtObjectHeaderImage"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                app:image_url="@{ artObject.headerImage }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/itemViewArtObjectTitleHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_margin"
+                android:layout_marginTop="@dimen/half_margin"
+                android:text="@string/title"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemViewArtObjectHeaderImage" />
+
+            <TextView
+                android:id="@+id/itemViewArtObjectTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/half_margin"
+                android:text="@{ artObject.title }"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/itemViewArtObjectHeadersBarrier"
+                app:layout_constraintTop_toTopOf="@id/itemViewArtObjectTitleHeader" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/itemViewArtObjectTitleBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="itemViewArtObjectTitleHeader,itemViewArtObjectTitle" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/itemViewArtObjectHeadersBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="itemViewArtObjectTitleHeader,itemViewArtObjectPrincipalOrFirstMakerHeader" />
+
+            <TextView
+                android:id="@+id/itemViewArtObjectPrincipalOrFirstMakerHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/half_margin"
+                android:layout_marginStart="@dimen/half_margin"
+                android:text="@string/author"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemViewArtObjectTitleBarrier"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/itemViewArtObjectPrincipalOrFirstMaker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/half_margin"
+                android:layout_marginVertical="@dimen/half_margin"
+                android:text="@{ artObject.principalOrFirstMaker }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/itemViewArtObjectHeadersBarrier"
+                app:layout_constraintTop_toBottomOf="@id/itemViewArtObjectTitleBarrier" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
