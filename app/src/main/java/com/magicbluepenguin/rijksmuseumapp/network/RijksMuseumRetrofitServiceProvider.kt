@@ -6,7 +6,7 @@ import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-data class RijksObjectCollection(
+private data class RijksObjectCollection(
     val artObjects: List<Map<String, Any>>
 )
 
@@ -15,7 +15,7 @@ internal object RijksMuseumRetrofitServiceProvider {
     private val retrofit by lazy {
         class RijksArtObjectAdapter {
             @FromJson
-            fun fromJson(rijksObjectCollection: RijksObjectCollection): List<RijksArtObject?> {
+            fun fromJson(rijksObjectCollection: RijksObjectCollection): List<RijksArtObject> {
                 return rijksObjectCollection.artObjects.map { artObjectMap ->
 
                     val headerImageUrl =
@@ -27,7 +27,7 @@ internal object RijksMuseumRetrofitServiceProvider {
                         artObjectMap["objectNumber"].toString(),
                         artObjectMap["title"].toString(),
                         artObjectMap["principalOrFirstMaker"].toString(),
-                        artObjectMap["hasImage"] as? Boolean ?: false,
+                        artObjectMap["hasImage"] as Boolean,
                         headerImageUrl
                     )
                 }
@@ -44,6 +44,10 @@ internal object RijksMuseumRetrofitServiceProvider {
             .build()
     }
 
-    val rijksMuseumDataService: RijksMuseumCollectionsService
-        get() = retrofit.create(RijksMuseumCollectionsService::class.java)
+    fun getRijksMuseumServiceWrapper(apiKey: String, language: String) =
+        RijksMuseumCollectionsServiceWrapper(
+            apiKey,
+            language,
+            retrofit.create(RijksMuseumCollectionsService::class.java)
+        )
 }
