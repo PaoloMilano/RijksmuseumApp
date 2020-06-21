@@ -22,6 +22,10 @@ internal class RijksArtObjectListViewModel @Inject constructor(private val dataS
             )
         )
 
+    init {
+        loadData()
+    }
+
     fun loadData() {
         dataSourceFactory.loadData()
     }

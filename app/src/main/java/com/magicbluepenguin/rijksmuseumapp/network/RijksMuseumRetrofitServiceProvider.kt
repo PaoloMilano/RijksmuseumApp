@@ -6,16 +6,21 @@ import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-private data class RijksObjectCollection(
+private data class RijksArtObjectList(
     val artObjects: List<Map<String, Any>>
+)
+
+private data class RijksArtObjectDetail(
+    val artObject: Map<String, Any>,
+    val artObjectPage: Map<String, Any>
 )
 
 internal object RijksMuseumRetrofitServiceProvider {
 
     private val retrofit by lazy {
-        class RijksArtObjectAdapter {
+        class RijksArtObjectListAdapter {
             @FromJson
-            fun fromJson(rijksObjectCollection: RijksObjectCollection): List<RijksArtObject> {
+            fun fromJson(rijksObjectCollection: RijksArtObjectList): List<RijksArtObject> {
                 return rijksObjectCollection.artObjects.map { artObjectMap ->
 
                     val headerImageUrl =
@@ -24,17 +29,49 @@ internal object RijksMuseumRetrofitServiceProvider {
                         }
 
                     RijksArtObject(
-                        artObjectMap["objectNumber"].toString(),
-                        artObjectMap["title"].toString(),
-                        artObjectMap["principalOrFirstMaker"].toString(),
-                        artObjectMap["hasImage"] as Boolean,
-                        headerImageUrl
+                        objectNumber = artObjectMap["objectNumber"].toString(),
+                        title = artObjectMap["title"].toString(),
+                        principalOrFirstMaker = artObjectMap["principalOrFirstMaker"].toString(),
+                        hasImage = artObjectMap["hasImage"] as Boolean,
+                        headerImage = headerImageUrl
                     )
                 }
             }
         }
 
+        class RijksArtObjectAdapter {
+            @FromJson
+            fun fromJson(rijksArtObject: RijksArtObjectDetail): RijksArtObject {
+
+                val webImageUrl =
+                    (rijksArtObject.artObject["webImage"] as? Map<String, Any>)?.run {
+                        this["url"].toString()
+                    }
+                val presentingDate =
+                    (rijksArtObject.artObject["dating"] as? Map<String, Any>)?.run {
+                        this["presentingDate"].toString()
+                    }
+
+                val creditLine =
+                    (rijksArtObject.artObject["acquisition"] as? Map<String, Any>)?.run {
+                        this["creditLine"].toString()
+                    }
+
+                return RijksArtObject(
+                    objectNumber = rijksArtObject.artObject["objectNumber"].toString(),
+                    title = rijksArtObject.artObject["title"].toString(),
+                    principalOrFirstMaker = rijksArtObject.artObject["principalOrFirstMaker"].toString(),
+                    hasImage = rijksArtObject.artObject["hasImage"] as Boolean,
+                    webImage = webImageUrl,
+                    presentingDate = presentingDate,
+                    plaqueDescription = rijksArtObject.artObjectPage["plaqueDescription"].toString(),
+                    creditLine = creditLine
+                )
+            }
+        }
+
         val moshi = Moshi.Builder()
+            .add(RijksArtObjectListAdapter())
             .add(RijksArtObjectAdapter())
             .build()
 

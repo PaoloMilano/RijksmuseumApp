@@ -14,4 +14,11 @@ interface RijksMuseumCollectionsService {
         @Query("p") offset: Int,
         @Query("ps") limit: Int
     ): List<RijksArtObject>
+
+    @GET("{language}/collection/{objectNumber}")
+    suspend fun getArtObject(
+        @Path("language") language: String,
+        @Path("objectNumber") objectNumber: String,
+        @Query("key") apiKey: String
+    ): RijksArtObject
 }

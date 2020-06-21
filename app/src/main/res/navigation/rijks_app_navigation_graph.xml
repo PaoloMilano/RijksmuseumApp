@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rijks_app_navigation_graph"
+    app:startDestination="@id/rijksArtObjectListFragment">
+
+    <fragment
+        android:id="@+id/rijksArtObjectListFragment"
+        android:name="com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist.RijksArtObjectListFragment"
+        android:label="RijksArtObjectListFragment">
+        <action
+            android:id="@+id/action_rijksArtObjectListFragment_to_rijksArtObjectDetailFragment"
+            app:destination="@id/rijksArtObjectDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rijksArtObjectDetailFragment"
+        android:name="com.magicbluepenguin.rijksmuseumapp.rijksartobjectdetail.RijksArtObjectDetailFragment"
+        android:label="RijksArtObjectDetailFragment">
+        <argument
+            android:name="artObjectNumber"
+            app:argType="string" />
+    </fragment>
+</navigation>
