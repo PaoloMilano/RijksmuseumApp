@@ -6,9 +6,9 @@ import dagger.Subcomponent
 @Subcomponent(modules = [RijksArtObjectListViewModelFactoryModule::class])
 internal interface RijksArtObjectListSubcomponent {
 
-    @Subcomponent.Factory
-    interface Factory {
-        fun create(): RijksArtObjectListSubcomponent
+    @Subcomponent.Builder
+    interface Builder {
+        fun build(): RijksArtObjectListSubcomponent
     }
 
     fun inject(baseFragment: BaseFragment)

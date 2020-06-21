@@ -19,9 +19,9 @@ internal interface RijksMuseumAppComponent {
         fun build(): RijksMuseumAppComponent
     }
 
-    fun getArtObjectListSubcomponent(): RijksArtObjectListSubcomponent.Factory
+    fun getArtObjectListSubcomponent(): RijksArtObjectListSubcomponent.Builder
 
-    fun getArtObjectDetailSubcomponent(): RijksArtObjectDetailSubcomponent.Factory
+    fun getArtObjectDetailSubcomponent(): RijksArtObjectDetailSubcomponent.Builder
 }
 
 @Module(subcomponents = [RijksArtObjectListSubcomponent::class, RijksArtObjectDetailSubcomponent::class])

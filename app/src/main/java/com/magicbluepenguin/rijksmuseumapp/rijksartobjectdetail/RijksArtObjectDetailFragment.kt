@@ -14,7 +14,11 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
     private val artObjectDetailViewModel by viewModels<RijksArtObjectDetailViewModel>()
 
     override fun onAppComponentReady(rijksMuseumAppComponent: RijksMuseumAppComponent) {
-        rijksMuseumAppComponent.getArtObjectDetailSubcomponent().create().inject(this)
+        val args: RijksArtObjectDetailFragmentArgs by navArgs()
+        rijksMuseumAppComponent.getArtObjectDetailSubcomponent()
+            .withArtObjectNumber(args.artObjectNumber)
+            .build()
+            .inject(this)
     }
 
     override fun onCreateView(
@@ -26,14 +30,5 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
             rijksArtObjectDetailViewModel = artObjectDetailViewModel
             lifecycleOwner = this@RijksArtObjectDetailFragment
         }.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        if (savedInstanceState == null) {
-            val args: RijksArtObjectDetailFragmentArgs by navArgs()
-            artObjectDetailViewModel.loadData(args.artObjectNumber)
-        }
     }
 }

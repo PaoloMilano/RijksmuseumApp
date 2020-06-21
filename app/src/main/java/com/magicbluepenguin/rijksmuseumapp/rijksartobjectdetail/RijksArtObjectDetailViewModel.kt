@@ -9,16 +9,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class RijksArtObjectDetailViewModel @Inject constructor(private val rijksMuseumCollectionsServiceWrapper: RijksMuseumCollectionsServiceWrapper) :
+internal class RijksArtObjectDetailViewModel @Inject constructor(
+    private val artObjectNumber: String,
+    private val rijksMuseumCollectionsServiceWrapper: RijksMuseumCollectionsServiceWrapper
+) :
     ViewModel() {
 
     val rijksArtObjectLiveData = MutableLiveData<RijksArtObject>()
 
-    fun loadData(artObjectNumber: String) = viewModelScope.launch(Dispatchers.IO) {
-        rijksArtObjectLiveData.postValue(
-            rijksMuseumCollectionsServiceWrapper.getArtObject(
-                artObjectNumber
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            rijksArtObjectLiveData.postValue(
+                rijksMuseumCollectionsServiceWrapper.getArtObject(
+                    artObjectNumber
+                )
             )
-        )
+        }
     }
 }
