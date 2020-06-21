@@ -6,8 +6,9 @@ import androidx.paging.PositionalDataSource
 import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionsServiceWrapper
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-internal class RijksArtObjectRepository(private val rijksMuseumCollectionsServiceWrapper: RijksMuseumCollectionsServiceWrapper) {
+internal class RijksArtObjectRepository @Inject constructor(private val rijksMuseumCollectionsServiceWrapper: RijksMuseumCollectionsServiceWrapper) {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 

@@ -2,25 +2,17 @@ package com.magicbluepenguin.rijksmuseumapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.DaggerRijksArtObjectComponent
-import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.RijksArtObjectComponent
+import com.magicbluepenguin.rijksmuseumapp.base.FragmentInjector
+import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.DaggerRijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumRetrofitServiceProvider
-import com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist.BaseFragment
-import com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist.FragmentInjector
-import com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist.RijksArtObjectListFragment
 import kotlinx.android.synthetic.main.activity_scrolling.*
 
-class RijksArtObjectActivity : AppCompatActivity(R.layout.activity_scrolling), FragmentInjector {
+internal class RijksArtObjectActivity :
+    AppCompatActivity(R.layout.activity_scrolling),
+    FragmentInjector {
 
-    private lateinit var rijksArtObjectComponent: RijksArtObjectComponent
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setSupportActionBar(toolbar)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.activityContentView, RijksArtObjectListFragment()).commit()
-
-        rijksArtObjectComponent = DaggerRijksArtObjectComponent
+    override val rijksMuseumAppComponent by lazy {
+        DaggerRijksMuseumAppComponent
             .builder()
             .withRijksMuseumCollectionsServiceWrapper(
                 RijksMuseumRetrofitServiceProvider.getRijksMuseumServiceWrapper(
@@ -31,7 +23,13 @@ class RijksArtObjectActivity : AppCompatActivity(R.layout.activity_scrolling), F
             .build()
     }
 
-    override fun inject(baseFragment: BaseFragment) {
-        rijksArtObjectComponent.inject(baseFragment)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setSupportActionBar(toolbar)
+
+        if (savedInstanceState == null) {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.activityContentView, RijksArtObjectListFragment()).commit()
+        }
     }
 }

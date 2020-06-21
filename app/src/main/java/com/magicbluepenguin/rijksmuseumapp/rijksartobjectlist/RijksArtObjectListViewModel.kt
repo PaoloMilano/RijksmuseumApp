@@ -6,18 +6,11 @@ import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumRetrofitServiceProvider
 import com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist.repository.RijksArtObjectRepository
 import javax.inject.Inject
 
-internal class RijksArtObjectListViewModel @Inject constructor() : ViewModel() {
-
-    private val dataSourceFactory = RijksArtObjectRepository(
-        RijksMuseumRetrofitServiceProvider.getRijksMuseumServiceWrapper(
-            "0fiuZFh4",
-            "en"
-        )
-    )
+internal class RijksArtObjectListViewModel @Inject constructor(private val dataSourceFactory: RijksArtObjectRepository) :
+    ViewModel() {
 
     val rijksArtObjectListLiveData: LiveData<PagedList<RijksArtObject>> =
         dataSourceFactory.rijksObjectDataSourceFactory.toLiveData(

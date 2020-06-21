@@ -1,4 +1,4 @@
-package com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent
+package com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.artobjectlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -6,7 +6,7 @@ import com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist.RijksArtObjectList
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class RijksArtObjectViewModelFactory @Inject constructor(
+internal class RijksArtObjectListViewModelFactory @Inject constructor(
     private val rijksArtObjectListViewModel: Provider<RijksArtObjectListViewModel>
 ) : ViewModelProvider.Factory {
 
