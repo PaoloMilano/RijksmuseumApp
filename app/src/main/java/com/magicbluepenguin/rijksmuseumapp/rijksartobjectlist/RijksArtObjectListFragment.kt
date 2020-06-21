@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -16,17 +14,17 @@ import com.magicbluepenguin.rijksmuseumapp.R
 import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
 import kotlinx.android.synthetic.main.fragment_art_object_list.*
 
-internal class RijksArtObjectListFragment : Fragment(R.layout.fragment_art_object_list) {
-
-    val rijksArtObjectListViewModel by viewModels<RijksArtObjectListViewModel>()
+internal class RijksArtObjectListFragment : BaseFragment(R.layout.fragment_art_object_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rijksArtObjectListViewModel.loadData()
 
         val adapter = RijksArtObjectAdapter()
         artObjectRecyclerView.layoutManager = LinearLayoutManager(context)
         artObjectRecyclerView.adapter = adapter
+
+        val rijksArtObjectListViewModel by viewModelso<RijksArtObjectListViewModel>()
+        rijksArtObjectListViewModel.loadData()
         rijksArtObjectListViewModel.rijksArtObjectListLiveData.observe(
             viewLifecycleOwner,
             Observer {

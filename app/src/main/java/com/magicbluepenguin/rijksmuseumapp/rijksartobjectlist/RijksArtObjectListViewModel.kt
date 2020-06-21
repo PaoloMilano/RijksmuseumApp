@@ -8,8 +8,9 @@ import androidx.paging.toLiveData
 import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumRetrofitServiceProvider
 import com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist.repository.RijksArtObjectRepository
+import javax.inject.Inject
 
-internal class RijksArtObjectListViewModel : ViewModel() {
+internal class RijksArtObjectListViewModel @Inject constructor() : ViewModel() {
 
     private val dataSourceFactory = RijksArtObjectRepository(
         RijksMuseumRetrofitServiceProvider.getRijksMuseumServiceWrapper(
