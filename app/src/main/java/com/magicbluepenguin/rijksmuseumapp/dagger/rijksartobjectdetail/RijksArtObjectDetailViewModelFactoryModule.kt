@@ -1,4 +1,4 @@
-package com.magicbluepenguin.rijksmuseumapp.dagger.artobjectdetail
+package com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectdetail
 
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds

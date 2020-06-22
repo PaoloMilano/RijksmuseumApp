@@ -20,12 +20,12 @@ object RijksMuseumServerErrorResponse : RijksMuseumErrorResponse()
 internal class RijksMuseumCollectionsServiceWrapper(
     private val apiKey: String,
     private val language: String,
-    private val rijksMuseumCollectionsService: RijksMuseumCollectionsService
+    private val rijksArtObjectMetadataService: RijksArtObjectMetadataService
 ) {
     suspend fun listArtObjects(page: Int, pageSize: Int): RijksMuseumCollectionListResponse = withContext(Dispatchers.IO) {
         try {
             RijksMuseumCollectionListSuccessResponse(
-                rijksMuseumCollectionsService.listArtObjects(
+                rijksArtObjectMetadataService.listArtObjects(
                     language,
                     apiKey,
                     page,
@@ -40,7 +40,7 @@ internal class RijksMuseumCollectionsServiceWrapper(
     suspend fun getArtObject(objectNumber: String): RijksMuseumCollectionObjectDetailResponse = withContext(Dispatchers.IO) {
         try {
             RijksMuseumCollectionObjectDetailSuccessResponse(
-                rijksMuseumCollectionsService.getArtObject(
+                rijksArtObjectMetadataService.getArtObject(
                     language,
                     objectNumber,
                     apiKey

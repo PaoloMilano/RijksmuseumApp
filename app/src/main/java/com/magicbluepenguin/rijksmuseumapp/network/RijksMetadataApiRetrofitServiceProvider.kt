@@ -83,6 +83,6 @@ internal object RijksMuseumRetrofitServiceProvider {
         RijksMuseumCollectionsServiceWrapper(
             apiKey,
             language,
-            retrofit.create(RijksMuseumCollectionsService::class.java)
+            retrofit.create(RijksArtObjectMetadataService::class.java)
         )
 }
