@@ -26,8 +26,8 @@ internal class RijksArtObjectListViewModel @Inject constructor(private val rijks
             override fun create(): DataSource<Int, RijksArtObject> {
                 val dataSource = rijksArtObjectListRepository.getRijksArtObjectDataSource(viewModelScope) {
                     when (it) {
-                        is RijksArtObjectListDataSourceError -> errorLiveData.value = it
-                        is RijksArtObjectListDataStateInitialising -> isInitialisingLiveData.value = it.isInitialising
+                        is RijksArtObjectListDataSourceError -> errorLiveData.postValue(it)
+                        is RijksArtObjectListDataStateInitialising -> isInitialisingLiveData.postValue(it.isInitialising)
                     }
                 }
                 sourceLiveData.postValue(dataSource)

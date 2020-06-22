@@ -5,10 +5,7 @@ import androidx.paging.PagedList
 import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionsServiceWrapper
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumNetworkErrorResponse
-import io.mockk.coVerify
-import io.mockk.confirmVerified
-import io.mockk.mockk
-import io.mockk.slot
+import io.mockk.*
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -36,7 +33,6 @@ internal class RijksArtObjectListViewModelTest {
     @Test
     fun `ensure the ViewModel loads new data on initialisation`() {
         val mockObserver = mockk<Observer<PagedList<RijksArtObject>>>(relaxed = true)
-
         val mockRijksMuseumCollectionsServiceWrapper = mockk<RijksMuseumCollectionsServiceWrapper>()
         val viewModel = RijksArtObjectListViewModel(RijksArtObjectListRepository(mockRijksMuseumCollectionsServiceWrapper)).apply {
             rijksArtObjectListLiveData.observeForever(mockObserver)
@@ -54,7 +50,7 @@ internal class RijksArtObjectListViewModelTest {
     fun `ensure the ViewModel exposes errors from data source`() {
         val mockObserver = mockk<Observer<PagedList<RijksArtObject>>>(relaxed = true)
         val mockRijksArtObjectListRepository = mockk<RijksArtObjectListRepository>(relaxed = true)
-        val callbackSlot = slot<(RijksArtObjectListDataSourceError) -> Unit>()
+        val callbackSlot = slot<(RijksArtObjectListDataState) -> Unit>()
 
         val viewModel = RijksArtObjectListViewModel(mockRijksArtObjectListRepository).apply {
             rijksArtObjectListLiveData.observeForever(mockObserver)
@@ -67,5 +63,30 @@ internal class RijksArtObjectListViewModelTest {
         assertEquals(error, viewModel.errorLiveData.value)
 
         viewModel.rijksArtObjectListLiveData.removeObserver(mockObserver)
+    }
+
+    @Test
+    fun `ensure the ViewModel exposes initialisation state from data source`() {
+        val mockInitialisationObserver = mockk<Observer<Boolean>>(relaxed = true)
+        val mockPageObserver = mockk<Observer<PagedList<RijksArtObject>>>(relaxed = true)
+        val mockRijksArtObjectListRepository = mockk<RijksArtObjectListRepository>(relaxed = true)
+        val callbackSlot = slot<(RijksArtObjectListDataState) -> Unit>()
+
+        val viewModel = RijksArtObjectListViewModel(mockRijksArtObjectListRepository).apply {
+            rijksArtObjectListLiveData.observeForever(mockPageObserver)
+            isInitialisingLiveData.observeForever(mockInitialisationObserver)
+        }
+
+        verify { mockRijksArtObjectListRepository.getRijksArtObjectDataSource(any(), capture(callbackSlot)) }
+
+        callbackSlot.captured.invoke(RijksArtObjectListDataStateInitialising(true))
+        callbackSlot.captured.invoke(RijksArtObjectListDataStateInitialising(false))
+        verifySequence {
+            mockInitialisationObserver.onChanged(true)
+            mockInitialisationObserver.onChanged(false)
+        }
+
+        viewModel.isInitialisingLiveData.removeObserver(mockInitialisationObserver)
+        viewModel.rijksArtObjectListLiveData.removeObserver(mockPageObserver)
     }
 }
