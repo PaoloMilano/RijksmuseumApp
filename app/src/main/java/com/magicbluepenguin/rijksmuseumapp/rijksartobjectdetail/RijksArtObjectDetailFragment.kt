@@ -1,10 +1,12 @@
 package com.magicbluepenguin.rijksmuseumapp.rijksartobjectdetail
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,15 +24,18 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
         private const val ACTION_BAR_HEIGHT_RATIO = 0.7
     }
 
+    private val args: RijksArtObjectDetailFragmentArgs by navArgs()
     private val artObjectDetailViewModel by viewModels<RijksArtObjectDetailViewModel>()
 
     override fun onAppComponentReady(rijksMuseumAppComponent: RijksMuseumAppComponent) {
-        val args: RijksArtObjectDetailFragmentArgs by navArgs()
         rijksMuseumAppComponent.getArtObjectDetailSubcomponent()
             .withArtObjectNumber(args.artObjectNumber)
             .build()
             .inject(this)
     }
+
+//    val url = "https://paul.kinlan.me/"
+//    CustomTabsIntent.Builder().build().launchUrl(requireContext(), Uri.parse(url))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +56,16 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
             appBar.layoutParams.apply {
                 height = (container!!.height * ACTION_BAR_HEIGHT_RATIO).toInt()
                 appBar.layoutParams = this
+            }
+
+            if (args.artObjectWebAddressr.isEmpty()) {
+                itemViewArtObjectFab.visibility = View.GONE
+            } else {
+                itemViewArtObjectFab.setOnClickListener {
+                    CustomTabsIntent.Builder()
+                        .setToolbarColor(requireActivity().getColor(R.color.colorPrimary))
+                        .build().launchUrl(requireContext(), Uri.parse(args.artObjectWebAddressr))
+                }
             }
 
             rijksArtObjectDetailViewModel = artObjectDetailViewModel

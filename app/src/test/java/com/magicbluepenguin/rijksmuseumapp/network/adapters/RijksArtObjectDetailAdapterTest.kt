@@ -10,14 +10,13 @@ class RijksArtObjectDetailAdapterTest {
     fun `test detailed object parsing`() {
 
         val expected = RijksArtObject(
-            "123",
-            "Title",
-            "Maker",
-            "",
-            "url",
-            "Presenting Date",
-            "Description",
-            "creditLine"
+            objectNumber = "123",
+            title = "Title",
+            principalOrFirstMaker = "Maker",
+            webImage = "url",
+            presentingDate = "Presenting Date",
+            plaqueDescription = "Description",
+            creditLine = "creditLine"
         )
 
         val artObjecMap = mapOf(
@@ -35,7 +34,15 @@ class RijksArtObjectDetailAdapterTest {
 
     @Test
     fun `test that optional values are turned to empty strings when null`() {
-        val expected = RijksArtObject("123")
+        val expected = RijksArtObject(
+            objectNumber = "123",
+            title = "",
+            principalOrFirstMaker = "",
+            webImage = "",
+            presentingDate = "",
+            plaqueDescription = "",
+            creditLine = ""
+        )
         val artObjecMap = mapOf(
             "objectNumber" to expected.objectNumber,
             "title" to null,
@@ -44,7 +51,7 @@ class RijksArtObjectDetailAdapterTest {
             "dating" to mapOf("presentingDate" to null),
             "acquisition" to mapOf("creditLine" to null)
         )
-        val plaqueDescriptionMap = mapOf("plaqueDescription" to expected.plaqueDescription!!)
+        val plaqueDescriptionMap = mapOf("plaqueDescription" to null)
         val generated = RijksArtObjectDetailAdapter().fromJson(RijksArtObjectDetail(artObjecMap, plaqueDescriptionMap))
         assertEquals(expected, generated)
     }

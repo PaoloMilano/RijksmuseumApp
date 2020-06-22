@@ -45,7 +45,7 @@ internal class RijksArtObjectListFragment : BaseFragment() {
 
             val pagedArtObjectAdapter = RijksArtObjectListAdapter {
                 RijksArtObjectListFragmentDirections.actionRijksArtObjectListFragmentToRijksArtObjectDetailFragment(
-                    it.objectNumber
+                    it.objectNumber, it.webLink ?: ""
                 ).let {
                     findNavController().navigate(it)
                 }

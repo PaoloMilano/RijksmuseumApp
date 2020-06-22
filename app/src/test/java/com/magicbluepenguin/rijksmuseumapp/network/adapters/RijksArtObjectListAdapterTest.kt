@@ -8,17 +8,19 @@ class RijksArtObjectListAdapterTest {
     @Test
     fun `test detailed object parsing`() {
         val expected = RijksArtObject(
-            "123",
-            "Title",
-            "Maker",
-            "https://heade_image"
+            objectNumber = "123",
+            title = "Title",
+            principalOrFirstMaker = "Maker",
+            headerImage = "https://header_image",
+            webLink = "https://web_link"
         )
 
         val artObjectMap = mapOf(
             "objectNumber" to expected.objectNumber,
             "title" to expected.title,
             "principalOrFirstMaker" to expected.principalOrFirstMaker,
-            "headerImage" to mapOf("url" to expected.headerImage)
+            "headerImage" to mapOf("url" to expected.headerImage),
+            "links" to mapOf("web" to expected.webLink)
         )
 
         val generated = RijksArtObjectListAdapter().fromJson(RijksArtObjectListItem(listOf(artObjectMap))).first()
@@ -27,7 +29,13 @@ class RijksArtObjectListAdapterTest {
 
     @Test
     fun `test that optional values are turned to empty strings when null`() {
-        val expected = RijksArtObject("123")
+        val expected = RijksArtObject(
+            "123",
+            title = "",
+            principalOrFirstMaker = "",
+            headerImage = "",
+            webLink = ""
+        )
 
         val artObjectMap = mapOf(
             "objectNumber" to "123",
