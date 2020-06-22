@@ -5,11 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
+import com.magicbluepenguin.rijksmuseumapp.R
 import com.magicbluepenguin.rijksmuseumapp.base.BaseFragment
 import com.magicbluepenguin.rijksmuseumapp.dagger.RijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.databinding.FragmentArtObjectDetailBinding
+import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumNetworkErrorResponse
+import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumServerErrorResponse
 
 internal class RijksArtObjectDetailFragment : BaseFragment() {
 
@@ -50,6 +55,21 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
 
             rijksArtObjectDetailViewModel = artObjectDetailViewModel
             lifecycleOwner = this@RijksArtObjectDetailFragment
+
+            artObjectDetailViewModel.errorLiveData.observe(
+                viewLifecycleOwner,
+                Observer {
+                    val errorString = when (it) {
+                        is RijksMuseumNetworkErrorResponse -> getString(R.string.generic_error_message)
+                        is RijksMuseumServerErrorResponse -> getString(R.string.network_error_message)
+                    }
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        errorString, Snackbar.LENGTH_LONG
+                    ).show()
+                    requireView().findNavController().navigateUp()
+                }
+            )
         }.root
     }
 }

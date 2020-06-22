@@ -9,10 +9,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.magicbluepenguin.rijksmuseumapp.R
 import com.magicbluepenguin.rijksmuseumapp.base.BaseFragment
 import com.magicbluepenguin.rijksmuseumapp.dagger.RijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.databinding.FragmentArtObjectListBinding
+import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumNetworkErrorResponse
+import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumServerErrorResponse
+import kotlinx.android.synthetic.main.fragment_art_object_detail.*
 
 internal class RijksArtObjectListFragment : BaseFragment() {
 
@@ -58,8 +63,31 @@ internal class RijksArtObjectListFragment : BaseFragment() {
             artObjectListViewModel.rijksArtObjectListLiveData.observe(
                 viewLifecycleOwner,
                 Observer {
+                    artObjectErrorView.visibility = View.GONE
                     pagedArtObjectAdapter.submitList(it)
                     artObjectSwipeRefresh.isRefreshing = false
+                }
+            )
+
+            artObjectListViewModel.errorLiveData.observe(
+                viewLifecycleOwner,
+                Observer {
+
+                    if (it.isInitialisationError) {
+                        artObjectErrorView.visibility = View.VISIBLE
+                    }
+
+                    val errorString = when (it.rijksMuseumErrorResponse) {
+                        is RijksMuseumNetworkErrorResponse -> getString(R.string.generic_error_message)
+                        is RijksMuseumServerErrorResponse -> getString(R.string.network_error_message)
+                    }
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        errorString, Snackbar.LENGTH_LONG
+                    ).addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        }
+                    }).show()
                 }
             )
         }.root

@@ -6,4 +6,7 @@
     <string name="period">Period:</string>
     <string name="credit">Credit:</string>
     <string name="description">Description:</string>
+    <string name="generic_error_message">Your request could not be processed. Please try again later.</string>
+    <string name="network_error_message">There was a problem connecting to the network. Please try again later.</string>
+    <string name="tap_to_retry">Tap to retry</string>
 </resources>

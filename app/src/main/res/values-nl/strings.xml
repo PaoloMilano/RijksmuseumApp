@@ -6,4 +6,7 @@
     <string name="period">Periode:</string>
     <string name="credit">Credit:</string>
     <string name="description">Beschrijving:</string>
+    <string name="generic_error_message">Uw verzoek kan niet worden verwerkt. Probeer het later opnieuw.</string>
+    <string name="network_error_message">Er is een probleem opgetreden bij het verbinden met het netwerk. Probeer het later opnieuw.</string>
+    <string name="tap_to_retry">Tik om het opnieuw te proberen</string>
 </resources>

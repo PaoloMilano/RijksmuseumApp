@@ -24,7 +24,7 @@ internal object RijksMuseumRetrofitServiceProvider {
                 return rijksObjectCollection.artObjects.map { artObjectMap ->
 
                     val headerImageUrl =
-                        (artObjectMap["headerImage"] as? Map<String, Any>)?.run {
+                        (artObjectMap["headerImage"] as? Map<*, *>)?.run {
                             this["url"].toString()
                         }
 
@@ -43,16 +43,16 @@ internal object RijksMuseumRetrofitServiceProvider {
             fun fromJson(rijksArtObject: RijksArtObjectDetail): RijksArtObject {
 
                 val webImageUrl =
-                    (rijksArtObject.artObject["webImage"] as? Map<String, Any>)?.run {
+                    (rijksArtObject.artObject["webImage"] as? Map<*, *>)?.run {
                         this["url"].toString()
                     }
                 val presentingDate =
-                    (rijksArtObject.artObject["dating"] as? Map<String, Any>).run {
+                    (rijksArtObject.artObject["dating"] as? Map<*, *>).run {
                         this?.get("presentingDate")
                     }?.toString().orEmpty()
 
                 val creditLine =
-                    (rijksArtObject.artObject["acquisition"] as? Map<String, Any>).run {
+                    (rijksArtObject.artObject["acquisition"] as? Map<*, *>).run {
                         this?.get("creditLine")
                     }?.toString().orEmpty()
 
