@@ -25,8 +25,6 @@ internal class RijksArtObjectListAdapter(private val artObjectSelectionListener:
             holder.itemView.setOnClickListener {
                 artObjectSelectionListener.invoke(item)
             }
-        } else {
-            // TODO Show placeholder
         }
     }
 

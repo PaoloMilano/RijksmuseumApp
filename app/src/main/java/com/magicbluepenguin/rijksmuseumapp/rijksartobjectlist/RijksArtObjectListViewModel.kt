@@ -18,13 +18,17 @@ internal class RijksArtObjectListViewModel @Inject constructor(private val rijks
 
     private val sourceLiveData = MutableLiveData<PositionalDataSource<RijksArtObject>>()
 
+    val isInitialisingLiveData = MutableLiveData<Boolean>()
     val errorLiveData = MutableLiveData<RijksArtObjectListDataSourceError>()
     val rijksArtObjectListLiveData: LiveData<PagedList<RijksArtObject>> =
         object :
             DataSource.Factory<Int, RijksArtObject>() {
             override fun create(): DataSource<Int, RijksArtObject> {
                 val dataSource = rijksArtObjectListRepository.getRijksArtObjectDataSource(viewModelScope) {
-                    errorLiveData.value = it
+                    when (it) {
+                        is RijksArtObjectListDataSourceError -> errorLiveData.value = it
+                        is RijksArtObjectListDataStateInitialising -> isInitialisingLiveData.value = it.isInitialising
+                    }
                 }
                 sourceLiveData.postValue(dataSource)
                 return dataSource

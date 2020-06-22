@@ -61,6 +61,17 @@ internal class RijksArtObjectListFragment : BaseFragment() {
                 }
             )
 
+            artObjectListViewModel.isInitialisingLiveData.observe(
+                viewLifecycleOwner,
+                Observer { isInitialising ->
+                    if (isInitialising) {
+                        artObjectProgressBar.show()
+                    } else {
+                        artObjectProgressBar.hide()
+                    }
+                }
+            )
+
             artObjectListViewModel.rijksArtObjectListLiveData.observe(
                 viewLifecycleOwner,
                 Observer {
@@ -79,8 +90,8 @@ internal class RijksArtObjectListFragment : BaseFragment() {
                     }
 
                     val errorString = when (it.rijksMuseumErrorResponse) {
-                        is RijksMuseumNetworkErrorResponse -> getString(R.string.generic_error_message)
-                        is RijksMuseumServerErrorResponse -> getString(R.string.network_error_message)
+                        is RijksMuseumNetworkErrorResponse -> getString(R.string.network_error_message)
+                        is RijksMuseumServerErrorResponse -> getString(R.string.generic_error_message)
                     }
                     Snackbar.make(
                         requireActivity().findViewById(android.R.id.content),

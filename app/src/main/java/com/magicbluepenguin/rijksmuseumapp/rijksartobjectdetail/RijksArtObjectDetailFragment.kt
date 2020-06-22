@@ -60,8 +60,8 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
                 viewLifecycleOwner,
                 Observer {
                     val errorString = when (it) {
-                        is RijksMuseumNetworkErrorResponse -> getString(R.string.generic_error_message)
-                        is RijksMuseumServerErrorResponse -> getString(R.string.network_error_message)
+                        is RijksMuseumNetworkErrorResponse -> getString(R.string.network_error_message)
+                        is RijksMuseumServerErrorResponse -> getString(R.string.generic_error_message)
                     }
                     Snackbar.make(
                         requireActivity().findViewById(android.R.id.content),
