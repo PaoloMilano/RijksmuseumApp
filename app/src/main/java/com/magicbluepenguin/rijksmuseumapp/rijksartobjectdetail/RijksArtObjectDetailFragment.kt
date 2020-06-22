@@ -1,5 +1,6 @@
 package com.magicbluepenguin.rijksmuseumapp.rijksartobjectdetail
 
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -34,9 +35,6 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
             .inject(this)
     }
 
-//    val url = "https://paul.kinlan.me/"
-//    CustomTabsIntent.Builder().build().launchUrl(requireContext(), Uri.parse(url))
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,7 +52,9 @@ internal class RijksArtObjectDetailFragment : BaseFragment() {
             }
 
             appBar.layoutParams.apply {
-                height = (container!!.height * ACTION_BAR_HEIGHT_RATIO).toInt()
+                // Make the image 70% of the height of the screen. Use static displayMetrics because
+                // there will be cases in which the height of the root view is not set
+                height = (Resources.getSystem().displayMetrics.heightPixels * ACTION_BAR_HEIGHT_RATIO).toInt()
                 appBar.layoutParams = this
             }
 

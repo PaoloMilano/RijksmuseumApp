@@ -1,6 +1,7 @@
 package com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumServerErrorRespons
 
 internal class RijksArtObjectListFragment : BaseFragment() {
 
-    val artObjectListViewModel by viewModels<RijksArtObjectListViewModel>()
+    private val artObjectListViewModel by viewModels<RijksArtObjectListViewModel>()
 
     override fun onAppComponentReady(rijksMuseumAppComponent: RijksMuseumAppComponent) {
         rijksMuseumAppComponent.getArtObjectListSubcomponent()
@@ -47,7 +48,14 @@ internal class RijksArtObjectListFragment : BaseFragment() {
                 RijksArtObjectListFragmentDirections.actionRijksArtObjectListFragmentToRijksArtObjectDetailFragment(
                     it.objectNumber, it.webLink ?: ""
                 ).let {
-                    findNavController().navigate(it)
+                    // This error will occur then multiple calls to `navigate` happen in quick succession.
+                    // The safety of encasing this in a try catch is based on the assumption that there is no other
+                    // way in which we can get to this point in the code and have the wrong `NavDirections` object
+                    try {
+                        findNavController().navigate(it)
+                    } catch (e: IllegalArgumentException) {
+                        Log.w(this@RijksArtObjectListFragment::class.qualifiedName, e.localizedMessage)
+                    }
                 }
             }
             artObjectRecyclerView.adapter = pagedArtObjectAdapter

@@ -6,7 +6,7 @@ import com.squareup.picasso.Picasso
 
 @BindingAdapter("image_url")
 fun bindImage(view: ImageView, imageUrlString: String?) {
-    if (imageUrlString != null) {
+    if (!imageUrlString.isNullOrEmpty()) {
         Picasso.get()
             .load(imageUrlString)
             .stableKey(imageUrlString)
