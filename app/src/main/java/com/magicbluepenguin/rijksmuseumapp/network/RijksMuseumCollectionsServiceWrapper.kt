@@ -1,6 +1,8 @@
 package com.magicbluepenguin.rijksmuseumapp.network
 
 import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 sealed class RijksMuseumCollectionResponse
@@ -20,14 +22,14 @@ internal class RijksMuseumCollectionsServiceWrapper(
     private val language: String,
     private val rijksMuseumCollectionsService: RijksMuseumCollectionsService
 ) {
-    suspend fun listArtObjects(offset: Int, limit: Int): RijksMuseumCollectionResponse {
-        return try {
-            RijksMuseumArtObjectListResponse(
+    suspend fun listArtObjects(page: Int, pageSize: Int): RijksMuseumCollectionListResponse = withContext(Dispatchers.IO) {
+        try {
+            RijksMuseumCollectionListSuccessResponse(
                 rijksMuseumCollectionsService.listArtObjects(
                     language,
                     apiKey,
-                    offset,
-                    limit
+                    page,
+                    pageSize
                 )
             )
         } catch (e: Exception) {
@@ -35,9 +37,9 @@ internal class RijksMuseumCollectionsServiceWrapper(
         }
     }
 
-    suspend fun getArtObject(objectNumber: String): RijksMuseumCollectionResponse {
-        return try {
-            RijksMuseumArtObjectDetailResponse(
+    suspend fun getArtObject(objectNumber: String): RijksMuseumCollectionObjectDetailResponse = withContext(Dispatchers.IO) {
+        try {
+            RijksMuseumCollectionObjectDetailSuccessResponse(
                 rijksMuseumCollectionsService.getArtObject(
                     language,
                     objectNumber,

@@ -11,8 +11,8 @@ interface RijksMuseumCollectionsService {
     suspend fun listArtObjects(
         @Path("language") language: String,
         @Query("key") apiKey: String,
-        @Query("p") offset: Int,
-        @Query("ps") limit: Int
+        @Query("p") page: Int,
+        @Query("ps") pageSize: Int
     ): List<RijksArtObject>
 
     @GET("{language}/collection/{objectNumber}")

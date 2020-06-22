@@ -6,18 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumArtObjectListResponse
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionsServiceWrapper
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumErrorResponse
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class RijksArtObjectListError(
-    val rijksMuseumErrorResponse: RijksMuseumErrorResponse,
-    val isInitialisationError: Boolean
-)
-
-internal class RijksArtObjectListViewModel @Inject constructor(private val rijksMuseumCollectionsServiceWrapper: RijksMuseumCollectionsServiceWrapper) :
+internal class RijksArtObjectListViewModel @Inject constructor(private val rijksArtObjectListRepository: RijksArtObjectListRepository) :
     ViewModel() {
 
     companion object {
@@ -27,12 +18,14 @@ internal class RijksArtObjectListViewModel @Inject constructor(private val rijks
 
     private val sourceLiveData = MutableLiveData<PositionalDataSource<RijksArtObject>>()
 
-    val errorLiveData = MutableLiveData<RijksArtObjectListError>()
+    val errorLiveData = MutableLiveData<RijksArtObjectListDataSourceError>()
     val rijksArtObjectListLiveData: LiveData<PagedList<RijksArtObject>> =
         object :
             DataSource.Factory<Int, RijksArtObject>() {
             override fun create(): DataSource<Int, RijksArtObject> {
-                val dataSource = RijksArtObjectDataSource()
+                val dataSource = rijksArtObjectListRepository.getRijksArtObjectDataSource(viewModelScope) {
+                    errorLiveData.value = it
+                }
                 sourceLiveData.postValue(dataSource)
                 return dataSource
             }
@@ -50,49 +43,5 @@ internal class RijksArtObjectListViewModel @Inject constructor(private val rijks
 
     fun loadData() {
         sourceLiveData.value?.invalidate()
-    }
-
-    private inner class RijksArtObjectDataSource : PositionalDataSource<RijksArtObject>() {
-        override fun loadRange(
-            params: LoadRangeParams,
-            callback: LoadRangeCallback<RijksArtObject>
-        ) {
-            viewModelScope.launch {
-                rijksMuseumCollectionsServiceWrapper.listArtObjects(
-                    params.startPosition / params.loadSize,
-                    params.loadSize
-                )
-                    .let {
-                        when (it) {
-                            is RijksMuseumArtObjectListResponse -> callback.onResult(it.artObjectList)
-                            is RijksMuseumErrorResponse -> {
-                                callback.onResult(emptyList())
-                                errorLiveData.postValue(RijksArtObjectListError(it, false))
-                            }
-                        }
-                    }
-            }
-        }
-
-        override fun loadInitial(
-            params: LoadInitialParams,
-            callback: LoadInitialCallback<RijksArtObject>
-        ) {
-            viewModelScope.launch {
-                rijksMuseumCollectionsServiceWrapper.listArtObjects(1, params.requestedLoadSize)
-                    .let {
-                        when (it) {
-                            is RijksMuseumArtObjectListResponse -> callback.onResult(
-                                it.artObjectList,
-                                0
-                            )
-                            is RijksMuseumErrorResponse -> {
-                                callback.onResult(emptyList(), 0)
-                                errorLiveData.postValue(RijksArtObjectListError(it, true))
-                            }
-                        }
-                    }
-            }
-        }
     }
 }
