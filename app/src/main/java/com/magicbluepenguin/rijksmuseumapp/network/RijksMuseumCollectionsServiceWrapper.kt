@@ -5,15 +5,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-sealed class RijksMuseumCollectionResponse
+sealed class RijksMuseumCollectionListResponse
+data class RijksMuseumCollectionListSuccessResponse(val artObjectList: List<RijksArtObject>) : RijksMuseumCollectionListResponse()
+data class RijksMuseumCollectionListFailResponse(val error: RijksMuseumErrorResponse) : RijksMuseumCollectionListResponse()
 
-data class RijksMuseumArtObjectListResponse(val artObjectList: List<RijksArtObject>) :
-    RijksMuseumCollectionResponse()
+sealed class RijksMuseumCollectionObjectDetailResponse
+data class RijksMuseumCollectionObjectDetailSuccessResponse(val artObject: RijksArtObject) : RijksMuseumCollectionObjectDetailResponse()
+data class RijksMuseumCollectionObjectDetailFailResponse(val error: RijksMuseumErrorResponse) : RijksMuseumCollectionObjectDetailResponse()
 
-data class RijksMuseumArtObjectDetailResponse(val artObject: RijksArtObject) :
-    RijksMuseumCollectionResponse()
-
-sealed class RijksMuseumErrorResponse : RijksMuseumCollectionResponse()
+sealed class RijksMuseumErrorResponse
 object RijksMuseumNetworkErrorResponse : RijksMuseumErrorResponse()
 object RijksMuseumServerErrorResponse : RijksMuseumErrorResponse()
 
@@ -33,7 +33,7 @@ internal class RijksMuseumCollectionsServiceWrapper(
                 )
             )
         } catch (e: Exception) {
-            e.toRijksMuseumErrorResponse()
+            RijksMuseumCollectionListFailResponse(e.toRijksMuseumErrorResponse())
         }
     }
 
@@ -47,7 +47,7 @@ internal class RijksMuseumCollectionsServiceWrapper(
                 )
             )
         } catch (e: Exception) {
-            e.toRijksMuseumErrorResponse()
+            RijksMuseumCollectionObjectDetailFailResponse(e.toRijksMuseumErrorResponse())
         }
     }
 
