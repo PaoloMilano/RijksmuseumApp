@@ -13,7 +13,7 @@ internal class RijksArtObjectListViewModelFactory @Inject constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when (modelClass) {
             RijksArtObjectListViewModel::class.java -> rijksArtObjectListViewModel.get()
-            else -> TODO("Missing viewModel $modelClass")
+            else -> throw IllegalArgumentException("Type not supported by this ViewModel factory: ${modelClass.name}")
         } as T
     }
 }
