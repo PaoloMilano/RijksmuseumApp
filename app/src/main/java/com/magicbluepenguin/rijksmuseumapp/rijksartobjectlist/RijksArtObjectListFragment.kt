@@ -17,7 +17,6 @@ import com.magicbluepenguin.rijksmuseumapp.dagger.RijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.databinding.FragmentArtObjectListBinding
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumNetworkErrorResponse
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumServerErrorResponse
-import kotlinx.android.synthetic.main.fragment_art_object_detail.*
 
 internal class RijksArtObjectListFragment : BaseFragment() {
 
@@ -35,8 +34,10 @@ internal class RijksArtObjectListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return FragmentArtObjectListBinding.inflate(inflater).apply {
+
+            val fragmentToolbar = toolbar
             (activity as AppCompatActivity).apply {
-                setSupportActionBar(toolbar)
+                setSupportActionBar(fragmentToolbar)
                 title = getString(R.string.app_name)
             }
 
