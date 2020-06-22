@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magicbluepenguin.rijksmuseumapp.R
 import com.magicbluepenguin.rijksmuseumapp.base.BaseFragment
-import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.RijksMuseumAppComponent
+import com.magicbluepenguin.rijksmuseumapp.dagger.RijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.databinding.FragmentArtObjectListBinding
 
 internal class RijksArtObjectListFragment : BaseFragment() {

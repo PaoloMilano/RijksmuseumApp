@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
-import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.RijksMuseumAppComponent
+import com.magicbluepenguin.rijksmuseumapp.dagger.RijksMuseumAppComponent
 import javax.inject.Inject
 
 internal interface FragmentInjector {

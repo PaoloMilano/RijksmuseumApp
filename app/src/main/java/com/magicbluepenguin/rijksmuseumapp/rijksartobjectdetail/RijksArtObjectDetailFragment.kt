@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.magicbluepenguin.rijksmuseumapp.base.BaseFragment
-import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.RijksMuseumAppComponent
+import com.magicbluepenguin.rijksmuseumapp.dagger.RijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.databinding.FragmentArtObjectDetailBinding
 
 internal class RijksArtObjectDetailFragment : BaseFragment() {

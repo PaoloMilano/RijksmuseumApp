@@ -1,4 +1,4 @@
-package com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.artobjectlist
+package com.magicbluepenguin.rijksmuseumapp.dagger.artobjectdetail
 
 import com.magicbluepenguin.rijksmuseumapp.base.BaseFragment
 import dagger.BindsInstance

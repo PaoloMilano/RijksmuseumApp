@@ -1,7 +1,7 @@
-package com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent
+package com.magicbluepenguin.rijksmuseumapp.dagger
 
-import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.artobjectlist.RijksArtObjectDetailSubcomponent
-import com.magicbluepenguin.rijksmuseumapp.dagger.rijksartobjectcomponent.artobjectlist.RijksArtObjectListSubcomponent
+import com.magicbluepenguin.rijksmuseumapp.dagger.artobjectdetail.RijksArtObjectDetailSubcomponent
+import com.magicbluepenguin.rijksmuseumapp.dagger.artobjectlist.RijksArtObjectListSubcomponent
 import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionsServiceWrapper
 import dagger.BindsInstance
 import dagger.Component
