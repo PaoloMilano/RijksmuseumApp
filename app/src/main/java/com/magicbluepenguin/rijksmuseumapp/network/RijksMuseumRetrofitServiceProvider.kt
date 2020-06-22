@@ -47,14 +47,14 @@ internal object RijksMuseumRetrofitServiceProvider {
                         this["url"].toString()
                     }
                 val presentingDate =
-                    (rijksArtObject.artObject["dating"] as? Map<String, Any>)?.run {
-                        this["presentingDate"].toString()
-                    }
+                    (rijksArtObject.artObject["dating"] as? Map<String, Any>).run {
+                        this?.get("presentingDate")
+                    }?.toString().orEmpty()
 
                 val creditLine =
-                    (rijksArtObject.artObject["acquisition"] as? Map<String, Any>)?.run {
-                        this["creditLine"].toString()
-                    }
+                    (rijksArtObject.artObject["acquisition"] as? Map<String, Any>).run {
+                        this?.get("creditLine")
+                    }?.toString().orEmpty()
 
                 return RijksArtObject(
                     objectNumber = rijksArtObject.artObject["objectNumber"].toString(),

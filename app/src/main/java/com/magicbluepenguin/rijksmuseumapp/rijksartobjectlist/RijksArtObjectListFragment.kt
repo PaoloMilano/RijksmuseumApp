@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -29,6 +30,11 @@ internal class RijksArtObjectListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return FragmentArtObjectListBinding.inflate(inflater).apply {
+            (activity as AppCompatActivity).apply {
+                setSupportActionBar(toolbar)
+                title = getString(R.string.app_name)
+            }
+
             rijksArtObjectListViewModel = artObjectListViewModel
 
             val pagedArtObjectAdapter = RijksArtObjectListAdapter {
@@ -53,6 +59,7 @@ internal class RijksArtObjectListFragment : BaseFragment() {
                 viewLifecycleOwner,
                 Observer {
                     pagedArtObjectAdapter.submitList(it)
+                    artObjectSwipeRefresh.isRefreshing = false
                 }
             )
         }.root

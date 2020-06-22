@@ -5,8 +5,8 @@
         android:endColor="#efefef"
         android:startColor="#eceff1" />
     <padding
-        android:bottom="@dimen/half_margin"
-        android:left="@dimen/half_margin"
-        android:right="@dimen/half_margin"
-        android:top="@dimen/half_margin" />
+        android:bottom="@dimen/half_space"
+        android:left="@dimen/half_space"
+        android:right="@dimen/half_space"
+        android:top="@dimen/half_space" />
 </shape>

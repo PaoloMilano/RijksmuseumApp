@@ -3,4 +3,7 @@
     <string name="app_language">nl</string>
     <string name="author">Auteur: </string>
     <string name="title">Titel: </string>
+    <string name="period">Periode:</string>
+    <string name="credit">Credit:</string>
+    <string name="description">Beschrijving:</string>
 </resources>
