@@ -1,13 +1,12 @@
-package com.magicbluepenguin.rijksmuseumapp.network.adapters
+package com.magicbluepenguin.network.adapters
 
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
 class RijksArtObjectListAdapterTest {
     @Test
     fun `test detailed object parsing`() {
-        val expected = RijksArtObject(
+        val expected = com.magicbluepenguin.network.data.RijksArtObject(
             objectNumber = "123",
             title = "Title",
             principalOrFirstMaker = "Maker",
@@ -23,13 +22,14 @@ class RijksArtObjectListAdapterTest {
             "links" to mapOf("web" to expected.webLink)
         )
 
-        val generated = RijksArtObjectListAdapter().fromJson(RijksArtObjectListItem(listOf(artObjectMap))).first()
+        val generated = RijksArtObjectListAdapter()
+            .fromJson(RijksArtObjectListItem(listOf(artObjectMap))).first()
         assertEquals(expected, generated)
     }
 
     @Test
     fun `test that optional values are turned to empty strings when null`() {
-        val expected = RijksArtObject(
+        val expected = com.magicbluepenguin.network.data.RijksArtObject(
             "123",
             title = "",
             principalOrFirstMaker = "",
@@ -44,7 +44,8 @@ class RijksArtObjectListAdapterTest {
             "headerImage" to mapOf("url" to null)
         )
 
-        val generated = RijksArtObjectListAdapter().fromJson(RijksArtObjectListItem(listOf(artObjectMap))).first()
+        val generated = RijksArtObjectListAdapter()
+            .fromJson(RijksArtObjectListItem(listOf(artObjectMap))).first()
         assertEquals(expected, generated)
     }
 }

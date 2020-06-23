@@ -1,23 +1,24 @@
 package com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist
 
 import androidx.paging.PositionalDataSource
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionListFailResponse
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionListSuccessResponse
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionsServiceWrapper
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumErrorResponse
+import com.magicbluepenguin.network.RijksMuseumCollectionListFailResponse
+import com.magicbluepenguin.network.RijksMuseumCollectionListSuccessResponse
+import com.magicbluepenguin.network.RijksMuseumCollectionsServiceWrapper
+import com.magicbluepenguin.network.RijksMuseumErrorResponse
+import com.magicbluepenguin.network.data.RijksArtObject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class RijksArtObjectListDataState
+internal sealed class RijksArtObjectListDataState
 
-data class RijksArtObjectListDataSourceError(
+internal data class RijksArtObjectListDataSourceError(
     val rijksMuseumErrorResponse: RijksMuseumErrorResponse,
     val isInitialisationError: Boolean
 ) : RijksArtObjectListDataState()
 
-data class RijksArtObjectListDataStateInitialising(val isInitialising: Boolean) : RijksArtObjectListDataState()
+internal data class RijksArtObjectListDataStateInitialising(val isInitialising: Boolean) : RijksArtObjectListDataState()
 
 internal class RijksArtObjectListRepository @Inject constructor(private val rijksMuseumCollectionsServiceWrapper: RijksMuseumCollectionsServiceWrapper) {
 
@@ -31,7 +32,7 @@ internal class RijksArtObjectListRepository @Inject constructor(private val rijk
     ) : PositionalDataSource<RijksArtObject>() {
 
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<RijksArtObject>) {
-            coroutineScope.launch {
+            coroutineScope.launch(Dispatchers.IO) {
                 rijksMuseumCollectionsServiceWrapper.listArtObjects(params.startPosition / params.loadSize, params.loadSize)
                     .let {
                         when (it) {
@@ -46,7 +47,7 @@ internal class RijksArtObjectListRepository @Inject constructor(private val rijk
         }
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<RijksArtObject>) {
-            coroutineScope.launch {
+            coroutineScope.launch(Dispatchers.IO) {
                 dataStateHandler.invoke(RijksArtObjectListDataStateInitialising(true))
                 rijksMuseumCollectionsServiceWrapper.listArtObjects(1, params.requestedLoadSize)
                     .let {

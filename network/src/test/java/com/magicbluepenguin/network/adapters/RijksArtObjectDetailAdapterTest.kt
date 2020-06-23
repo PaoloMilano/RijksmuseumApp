@@ -1,6 +1,6 @@
-package com.magicbluepenguin.rijksmuseumapp.network.adapters
+package com.magicbluepenguin.network.adapters
 
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
+import com.magicbluepenguin.network.data.RijksArtObject
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
@@ -28,7 +28,8 @@ class RijksArtObjectDetailAdapterTest {
             "acquisition" to mapOf("creditLine" to expected.creditLine)
         )
         val plaqueDescriptionMap = mapOf("plaqueDescription" to expected.plaqueDescription!!)
-        val generated = RijksArtObjectDetailAdapter().fromJson(RijksArtObjectDetail(artObjecMap, plaqueDescriptionMap))
+        val generated = RijksArtObjectDetailAdapter()
+            .fromJson(RijksArtObjectDetail(artObjecMap, plaqueDescriptionMap))
         assertEquals(expected, generated)
     }
 
@@ -52,7 +53,8 @@ class RijksArtObjectDetailAdapterTest {
             "acquisition" to mapOf("creditLine" to null)
         )
         val plaqueDescriptionMap = mapOf("plaqueDescription" to null)
-        val generated = RijksArtObjectDetailAdapter().fromJson(RijksArtObjectDetail(artObjecMap, plaqueDescriptionMap))
+        val generated = RijksArtObjectDetailAdapter()
+            .fromJson(RijksArtObjectDetail(artObjecMap, plaqueDescriptionMap))
         assertEquals(expected, generated)
     }
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="artObject"
-            type="com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject" />
+            type="com.magicbluepenguin.network.data.RijksArtObject" />
     </data>
 
 

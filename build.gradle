@@ -19,6 +19,9 @@ buildscript {
 }
 
 allprojects {
+    ext.junit_version = "4.12"
+    ext.mockk_version = "1.10.0"
+
     repositories {
         google()
         jcenter()

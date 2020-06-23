@@ -1,14 +1,13 @@
 package com.magicbluepenguin.rijksmuseumapp.rijksartobjectdetail
 
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
-import com.magicbluepenguin.rijksmuseumapp.network.*
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.mockk
+import com.magicbluepenguin.network.*
+import com.magicbluepenguin.network.data.RijksArtObject
+import io.mockk.*
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -23,24 +22,33 @@ internal class RijksArtObjectDetailViewModelTest {
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(TestCoroutineDispatcher())
+        val testDispatcher = TestCoroutineDispatcher()
+        Dispatchers.setMain(testDispatcher)
+        mockkStatic(Dispatchers::class)
+        every { Dispatchers.IO } answers { testDispatcher }
     }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        unmockkAll()
     }
 
     @Test
-    fun `ensure ViewModel calls service wrapper with correct parameters`() {
-        coEvery { mockRijksMuseumCollectionsServiceWrapper.getArtObject(any()) } coAnswers { RijksMuseumCollectionObjectDetailFailResponse(RijksMuseumNetworkErrorResponse) }
+    fun `ensure ViewModel calls service wrapper with correct parameters`() = runBlockingTest {
+        coEvery { mockRijksMuseumCollectionsServiceWrapper.getArtObject(any()) } coAnswers {
+            RijksMuseumCollectionObjectDetailFailResponse(
+                RijksMuseumNetworkErrorResponse
+            )
+        }
         val objectNumberParam = "123ABC"
         RijksArtObjectDetailViewModel(objectNumberParam, mockRijksMuseumCollectionsServiceWrapper)
-        coVerifySequence { mockRijksMuseumCollectionsServiceWrapper.getArtObject(objectNumberParam) }
+        coVerify { mockRijksMuseumCollectionsServiceWrapper.getArtObject(objectNumberParam) }
+        confirmVerified(mockRijksMuseumCollectionsServiceWrapper)
     }
 
     @Test
-    fun `ensure ViewModel propagates artObject result to live data`() {
+    fun `ensure ViewModel propagates artObject result to live data`() = runBlockingTest {
         val expected = RijksArtObject("123", "Title", "Maker")
         coEvery { mockRijksMuseumCollectionsServiceWrapper.getArtObject(any()) } coAnswers {
             RijksMuseumCollectionObjectDetailSuccessResponse(expected)
@@ -50,15 +58,23 @@ internal class RijksArtObjectDetailViewModelTest {
     }
 
     @Test
-    fun `ensure ViewModel propagates network errors to liveData`() {
-        coEvery { mockRijksMuseumCollectionsServiceWrapper.getArtObject(any()) } coAnswers { RijksMuseumCollectionObjectDetailFailResponse(RijksMuseumNetworkErrorResponse) }
+    fun `ensure ViewModel propagates network errors to liveData`() = runBlockingTest {
+        coEvery { mockRijksMuseumCollectionsServiceWrapper.getArtObject(any()) } coAnswers {
+            RijksMuseumCollectionObjectDetailFailResponse(
+                RijksMuseumNetworkErrorResponse
+            )
+        }
         val networkErrorResponse = RijksArtObjectDetailViewModel("", mockRijksMuseumCollectionsServiceWrapper).errorLiveData.value
         assertEquals(networkErrorResponse, RijksMuseumNetworkErrorResponse)
     }
 
     @Test
-    fun `ensure ViewModel propagates server errors to liveData`() {
-        coEvery { mockRijksMuseumCollectionsServiceWrapper.getArtObject(any()) } coAnswers { RijksMuseumCollectionObjectDetailFailResponse(RijksMuseumServerErrorResponse) }
+    fun `ensure ViewModel propagates server errors to liveData`() = runBlockingTest {
+        coEvery { mockRijksMuseumCollectionsServiceWrapper.getArtObject(any()) } coAnswers {
+            RijksMuseumCollectionObjectDetailFailResponse(
+                RijksMuseumServerErrorResponse
+            )
+        }
         val serverErrorResponse = RijksArtObjectDetailViewModel("", mockRijksMuseumCollectionsServiceWrapper).errorLiveData.value
         assertEquals(serverErrorResponse, RijksMuseumServerErrorResponse)
     }

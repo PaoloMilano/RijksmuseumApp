@@ -3,11 +3,12 @@ package com.magicbluepenguin.rijksmuseumapp.rijksartobjectdetail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionObjectDetailFailResponse
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionObjectDetailSuccessResponse
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionsServiceWrapper
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumErrorResponse
+import com.magicbluepenguin.network.RijksMuseumCollectionObjectDetailFailResponse
+import com.magicbluepenguin.network.RijksMuseumCollectionObjectDetailSuccessResponse
+import com.magicbluepenguin.network.RijksMuseumCollectionsServiceWrapper
+import com.magicbluepenguin.network.RijksMuseumErrorResponse
+import com.magicbluepenguin.network.data.RijksArtObject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ internal class RijksArtObjectDetailViewModel @Inject constructor(
     val errorLiveData = MutableLiveData<RijksMuseumErrorResponse>()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             rijksMuseumCollectionsServiceWrapper.getArtObject(artObjectNumber).let {
                 when (it) {
                     is RijksMuseumCollectionObjectDetailSuccessResponse -> rijksArtObjectLiveData.postValue(it.artObject)

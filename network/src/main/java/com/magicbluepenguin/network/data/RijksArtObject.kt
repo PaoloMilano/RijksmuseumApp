@@ -1,4 +1,4 @@
-package com.magicbluepenguin.rijksmuseumapp.data
+package com.magicbluepenguin.network.data
 
 data class RijksArtObject(
     val objectNumber: String,

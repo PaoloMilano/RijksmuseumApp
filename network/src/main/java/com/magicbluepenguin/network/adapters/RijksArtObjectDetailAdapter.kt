@@ -1,6 +1,6 @@
-package com.magicbluepenguin.rijksmuseumapp.network.adapters
+package com.magicbluepenguin.network.adapters
 
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
+import com.magicbluepenguin.network.data.RijksArtObject
 import com.squareup.moshi.FromJson
 
 internal data class RijksArtObjectDetail(

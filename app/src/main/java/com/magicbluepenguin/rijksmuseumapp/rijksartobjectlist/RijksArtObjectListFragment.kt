@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.magicbluepenguin.network.RijksMuseumNetworkErrorResponse
+import com.magicbluepenguin.network.RijksMuseumServerErrorResponse
 import com.magicbluepenguin.rijksmuseumapp.R
 import com.magicbluepenguin.rijksmuseumapp.base.BaseFragment
 import com.magicbluepenguin.rijksmuseumapp.dagger.RijksMuseumAppComponent
 import com.magicbluepenguin.rijksmuseumapp.databinding.FragmentArtObjectListBinding
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumNetworkErrorResponse
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumServerErrorResponse
 
 internal class RijksArtObjectListFragment : BaseFragment() {
 

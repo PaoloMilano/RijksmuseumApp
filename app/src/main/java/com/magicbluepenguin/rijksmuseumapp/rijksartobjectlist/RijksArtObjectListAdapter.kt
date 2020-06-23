@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
+import com.magicbluepenguin.network.data.RijksArtObject
 import com.magicbluepenguin.rijksmuseumapp.databinding.ItemViewArtObjectBinding
 
 internal class RijksArtObjectItem(private val itemViewArtObjectBinding: ItemViewArtObjectBinding) :

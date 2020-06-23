@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
+import com.magicbluepenguin.network.data.RijksArtObject
 import javax.inject.Inject
 
 internal class RijksArtObjectListViewModel @Inject constructor(private val rijksArtObjectListRepository: RijksArtObjectListRepository) :

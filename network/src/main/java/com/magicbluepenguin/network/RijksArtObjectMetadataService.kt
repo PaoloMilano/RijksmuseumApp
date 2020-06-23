@@ -1,11 +1,11 @@
-package com.magicbluepenguin.rijksmuseumapp.network
+package com.magicbluepenguin.network
 
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
+import com.magicbluepenguin.network.data.RijksArtObject
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RijksArtObjectMetadataService {
+internal interface RijksArtObjectMetadataService {
 
     @GET("{language}/collection")
     suspend fun listArtObjects(

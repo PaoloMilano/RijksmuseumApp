@@ -2,9 +2,9 @@ package com.magicbluepenguin.rijksmuseumapp.rijksartobjectlist
 
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
-import com.magicbluepenguin.rijksmuseumapp.data.RijksArtObject
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumCollectionsServiceWrapper
-import com.magicbluepenguin.rijksmuseumapp.network.RijksMuseumNetworkErrorResponse
+import com.magicbluepenguin.network.RijksMuseumCollectionsServiceWrapper
+import com.magicbluepenguin.network.RijksMuseumNetworkErrorResponse
+import com.magicbluepenguin.network.data.RijksArtObject
 import io.mockk.*
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers

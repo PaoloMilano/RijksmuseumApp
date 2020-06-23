@@ -1,12 +1,12 @@
-package com.magicbluepenguin.rijksmuseumapp.network
+package com.magicbluepenguin.network
 
-import com.magicbluepenguin.rijksmuseumapp.network.adapters.RijksArtObjectDetailAdapter
-import com.magicbluepenguin.rijksmuseumapp.network.adapters.RijksArtObjectListAdapter
+import com.magicbluepenguin.network.adapters.RijksArtObjectDetailAdapter
+import com.magicbluepenguin.network.adapters.RijksArtObjectListAdapter
 import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-internal object RijksMuseumRetrofitServiceProvider {
+object RijksMuseumRetrofitServiceProvider {
 
     private val retrofit by lazy {
         val moshi = Moshi.Builder()
@@ -20,10 +20,11 @@ internal object RijksMuseumRetrofitServiceProvider {
             .build()
     }
 
-    fun getRijksMuseumServiceWrapper(apiKey: String, language: String) =
-        RijksMuseumCollectionsServiceWrapper(
+    fun getRijksMuseumServiceWrapper(apiKey: String, language: String): RijksMuseumCollectionsServiceWrapper {
+        return RijksMuseumCollectionsRetrofitServiceWrapper(
             apiKey,
             language,
             retrofit.create(RijksArtObjectMetadataService::class.java)
         )
+    }
 }
